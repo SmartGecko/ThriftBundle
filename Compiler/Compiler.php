@@ -38,6 +38,11 @@ class Compiler
     private $lastOutput;
 
     /**
+     * @var string
+     */
+    private $command;
+
+    /**
      * Return Thrift path
      * @return string
      */
@@ -128,19 +133,27 @@ class Compiler
 
         //Reset output
         $this->lastOutput = null;
-        exec(
-            sprintf(
-                '%s -r -v --gen php:%s --out %s %s 2>&1',
-                $this->getCompilerPath(),
-                $this->compileOptions(),
-                $this->outputDirectory,
-                $definition
-            ),
-            $this->lastOutput,
-            $return
+        $this->command = sprintf(
+            '%s -r -v --gen php:%s --out %s %s 2>&1',
+            $this->getCompilerPath(),
+            $this->compileOptions(),
+            $this->outputDirectory,
+            $definition
         );
 
+        exec($this->command, $this->lastOutput, $return);
+
         return (0 === $return) ? true : false;
+    }
+
+    /**
+     * Returns the executed command.
+     *
+     * @return string
+     */
+    public function getCommand()
+    {
+        return $this->command;
     }
 
     /**

@@ -73,12 +73,13 @@ class SmartGeckoThriftExtension extends Extension
         foreach ($services as $service) {
             preg_match('#^([^\\\]+)\\\#', $service['namespace'], $m);
             if (false === array_key_exists($m[1], $namespaces)) {
-                $namespaces[$m[1]] = $container->getParameter('kernel.cache_dir');
+                $namespaces[$m[1]] = $container->getParameter('kernel.cache_dir') . '/thrift';
             }
         }
+
         if (0 < count($namespaces)) {
             $container->getDefinition('thrift.factory')
-                ->addMethodCall('initLoader', array($namespaces));
+                ->addMethodCall('initLoader', [$namespaces]);
         }
     }
 }

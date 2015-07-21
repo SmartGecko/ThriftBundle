@@ -34,8 +34,9 @@ class ThriftFactory
     {
         $loader = new ThriftClassLoader();
 
-        foreach ($namespaces as $namespace) {
-            $loader->registerNamespace($namespace, ''); // TODO
+        foreach ($namespaces as $prefix => $dir) {
+            $loader->registerNamespace($prefix, $dir);
+            $loader->registerDefinition($prefix, $dir);
         }
 
         $loader->register();

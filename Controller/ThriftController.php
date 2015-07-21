@@ -24,10 +24,10 @@ ErrorHandler::register();
 class ThriftController extends Controller
 {
 
-    public function serverAction($extensionName)
+    public function serverAction($service)
     {
         $servers = $this->container->getParameter('thrift.config.servers');
-        $config = $servers[$extensionName];
+        $config = $servers[$service];
 
         $processor = $this->container->get('thrift.factory')->getProcessorInstance(
             $config['service'],

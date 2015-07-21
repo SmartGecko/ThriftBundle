@@ -1,0 +1,5 @@
+thrift_server:
+    pattern:  /{service}
+    defaults: { _controller: SmartGeckoThriftBundle:Thrift:server }
+    requirements:
+        _method: POST

@@ -51,28 +51,28 @@ class CompileCommand extends ContainerAwareCommand
 
             return 1;
         }
+
+        $definitionPath = $config['path'].'/'.$config['idl'].'.thrift';
         // Get definition path
-        $definitionPath = $this->getContainer()
-            ->get('thrift.compile_warmer')
-            ->getDefinitionPath(
-                $config['definition'],
-                $config['bundleNameIn'],
-                $config['definitionPath']
-            );
-        // Get out path
-        if (($bundleName = $input->getOption('bundleNameOut'))) {
-            $bundle = $this->getContainer()->get('kernel')->getBundle($bundleName);
-            $bundlePath = $bundle->getPath();
-        } else {
-            $bundlePath = getcwd();
-        }
+        $directory = $this->getContainer()->get('kernel')->getRootDir().'/../gen-php';
+
         //Set Path
-        $compiler->setOutputDirectory(sprintf('%s/%s', $bundlePath, ThriftCompileCacheWarmer::CACHE_SUFFIX));
+        $compiler->setOutputDirectory($directory);
+
         //Add namespace prefix if needed
         if ($input->getOption('namespace')) {
             $compiler->setNamespacePrefix($input->getOption('namespace'));
         }
-        $return = $compiler->compile($definitionPath, $input->getOption('server'));
+
+        $return = $compiler->compile($definitionPath);
+
+        // log command
+        $formattedLine =  $this->getHelper('formatter')->formatSection(
+            'Running Thrift Compiler',
+            $compiler->getCommand()
+        );
+        $output->writeln($formattedLine);
+
         //Error
         if (1 === $return) {
             $output->writeln(sprintf('<error>%s</error>', implode("\n", $compiler->getLastOutput())));
