@@ -1,0 +1,27 @@
+{
+    "name": "smartgecko/sg-thrift-bundle",
+    "description": "SmartGecko Thrift Bundle",
+    "homepage": "https://github.com/smartgecko/ThriftBundle.git",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+          "name": "David Kalosi",
+          "email": "david.kalosi@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "apache/thrift": "0.9.2"
+    },
+    "require-dev": {
+      "symfony/framework-bundle": "~2.7",
+      "symfony/console": "~2.7"
+    },
+    "target-dir": "SmartGecko/ThriftBundle",
+    "autoload": {
+        "psr-0": {"SmartGecko\\ThriftBundle": ""}
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}
